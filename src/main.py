@@ -92,8 +92,8 @@ def run_regression() -> None:
 
 def run_live_github_run(repo: str, run_id: int) -> None:
     client = GitHubCIClient()
-    runs_data = client._get(f"/repos/{repo}/actions/runs/{run_id}")
-    jobs_data = client._get(f"/repos/{repo}/actions/runs/{run_id}/jobs").get("jobs", [])
+    runs_data = client.get_json(f"/repos/{repo}/actions/runs/{run_id}")
+    jobs_data = client.get_json(f"/repos/{repo}/actions/runs/{run_id}/jobs").get("jobs", [])
     failed_jobs = [j for j in jobs_data if j.get("conclusion") == "failure"]
 
     if not failed_jobs:

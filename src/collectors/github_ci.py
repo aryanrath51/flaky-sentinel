@@ -59,6 +59,12 @@ class GitHubCIClient:
             return f"[Log unavailable: HTTP {resp.status_code}]"
         text = resp.text
         return text[-max_chars:]
+    
+    def get_json(self, path_or_url: str, params: dict | None = None) -> dict:
+        url = f"https://api.github.com{path_or_url}" if path_or_url.startswith("/") else path_or_url
+        resp = self.session.get(url, params=params, timeout=30)
+        resp.raise_for_status()
+        return resp.json()
 
     def collect_dataset_snapshot(self, repo: str, max_runs: int = 40) -> list[dict[str, Any]]:
         RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
