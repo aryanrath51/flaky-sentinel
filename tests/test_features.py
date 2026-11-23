@@ -52,3 +52,6 @@ def test_predictor_returns_valid_probabilities():
     assert 0.0 <= pred.flakiness_probability <= 1.0
     assert 0.0 <= pred.regression_probability <= 1.0
     assert abs((pred.flakiness_probability + pred.regression_probability) - 1.0) < 1e-3
+    
+def test_intentional_ci_failure_demo():
+    assert False, "Simulated test failure to trigger Flaky Sentinel PR triage"
