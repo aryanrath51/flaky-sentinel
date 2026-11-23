@@ -102,7 +102,7 @@ def run_live_github_run(repo: str, run_id: int) -> None:
 
     job = failed_jobs[0]
     head_sha = runs_data.get("head_sha", "")
-    touched_files = client.get_commit_files(repo, head_sha) if head_sha else []
+    touched_files = client.fetch_commit_files(repo, head_sha) if head_sha else []
     log_tail = client.get_job_log_tail(repo, int(job["id"]))
 
     event = CIFailureEvent(
