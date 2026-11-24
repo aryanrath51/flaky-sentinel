@@ -44,3 +44,26 @@ flaky-sentinel/
 │   └── web.py                # Flask dark-mode dashboard
 └── tests/
     └── test_features.py      # Pytest unit tests
+
+  
+# 🛡️ Flaky Sentinel
+
+[![Flaky Sentinel Triage](https://github.com/aryanrath51/flaky-sentinel/actions/workflows/flaky-sentinel.yml/badge.svg)](https://github.com/aryanrath51/flaky-sentinel/actions/workflows/flaky-sentinel.yml)
+[![CI Tests](https://github.com/aryanrath51/flaky-sentinel/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/aryanrath51/flaky-sentinel/actions/workflows/ci-tests.yml)
+![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)
+![LightGBM](https://img.shields.io/badge/ML-LightGBM-brightgreen.svg)
+![Gemini](https://img.shields.io/badge/Agent-Google%20Gemini-orange.svg)
+
+Autonomous CI failure triage pipeline that classifies failed GitHub Actions runs into **flaky tests** vs. **real code regressions** using **LightGBM** risk scoring and **Google Gemini** root-cause reasoning (with deterministic ML fallback), posting actionable quarantine and `git bisect` reports directly onto Pull Requests.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    A[CI Tests Fail on PR] -->|workflow_run| B[Flaky Sentinel Triage]
+    B --> C[GitHubCIClient: Logs & Commit Diffs]
+    C --> D[Feature Extractor]
+    D --> E[LightGBM Flakiness vs Regression Classifier]
+    E --> F[Gemini Triage Agent + Deterministic Fallback]
+    F --> G[Quarantine Ledger & Artifacts]
+    F --> H[Idempotent PR Triage Comment]
